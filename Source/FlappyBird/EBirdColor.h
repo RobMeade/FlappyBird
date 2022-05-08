@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-#include "EBirdColour.generated.h"
+//#include "EBirdColor.generated.h"
 
 UENUM(BlueprintType)
-enum class EBirdColour : uint8
+enum class EBirdColor : uint8
 {
 	Blue	UMETA(DisplayName = "Blue"),
 	Red		UMETA(DisplayName = "Red"),

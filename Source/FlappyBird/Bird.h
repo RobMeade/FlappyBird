@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Camera/CameraComponent.h"
+#include "PaperFlipbookComponent.h"
 
-#include "EBirdColour.h"
+#include "EBirdColor.h"
 
 #include "Bird.generated.h"
 
@@ -44,7 +46,7 @@ protected:
 	FVector AutoFlightOrigin = FVector(0.0f, 0.0f, 0.0f);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Bird|Config")
-	EBirdColour BirdColour = EBirdColour::Red;
+	EBirdColor BirdColor = EBirdColor::Red;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Bird|Config")
 	FVector FlapImpulse = FVector(0.0f, 0.0f, 0.0f);
@@ -67,4 +69,14 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Bird|State")
 	bool bIsGrounded = false;
+
+	// components
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Bird|Components")
+	USceneComponent* Scene;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Bird|Components")
+	UPaperFlipbookComponent* Bird;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Bird|Components")
+	UCameraComponent* Camera;
 };
