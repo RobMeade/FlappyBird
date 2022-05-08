@@ -34,6 +34,13 @@ protected:
 	virtual void BeginPlay() override;
 
 
+	UFUNCTION(BlueprintCallable)
+	void ApplyFlapForce();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool IsFalling() const;
+
+
 protected:
 	// config
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Bird|Config")

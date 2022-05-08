@@ -19,12 +19,6 @@ ABird::ABird()
 	Camera->SetupAttachment(Scene);
 }
 
-// Called when the game starts or when spawned
-void ABird::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
 
 // Called every frame
 void ABird::Tick(float DeltaTime)
@@ -38,4 +32,26 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+
+// Called when the game starts or when spawned
+void ABird::BeginPlay()
+{
+	Super::BeginPlay();
+	
+}
+
+// Apply flap force to bird
+void ABird::ApplyFlapForce()
+{
+	Bird->SetPhysicsLinearVelocity(FVector(0.0f, 0.0f, 0.0f), false);
+	Bird->AddImpulse(FlapImpulse, NAME_None, true);
+}
+
+
+// Is the bird falling?
+ bool ABird::IsFalling() const
+{
+	return (Bird->GetComponentVelocity().Z < 0.0f) & (bIsGrounded != true);
 }
