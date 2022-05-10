@@ -49,9 +49,74 @@ void ABird::ApplyFlapForce()
 	Bird->AddImpulse(FlapImpulse, NAME_None, true);
 }
 
-
 // Is the bird falling?
- bool ABird::IsFalling() const
+bool ABird::IsFalling() const
 {
 	return (Bird->GetComponentVelocity().Z < 0.0f) & (bIsGrounded != true);
+}
+
+// Pause flap animation
+void ABird::PauseFlapAnimation()
+{
+	int32 PlaybackPositionFrame = Bird->GetPlaybackPositionInFrames();
+
+	if ((PlaybackPositionFrame == 0 || PlaybackPositionFrame == 2) && (!bIsFlapAnimationPaused))
+	{
+		Bird->SetPlayRate(0.0f);
+
+		bIsFlapAnimationPaused = true;
+	}
+}
+
+// Rotate the bird
+void ABird::Rotate(float DeltaTime)
+{
+	float Pitch = 0.0f;
+
+	if (bIsGrounded)
+	{
+		Pitch = -90.0f;
+	}
+	else
+	{
+		Pitch = FMath::GetMappedRangeValueClamped(FVector2D(100.0f, -450.0f), FVector2D(20.0f, -90.0f), Bird->GetComponentVelocity().Z);
+	}
+
+	if ((Pitch == 0.0f) || (Pitch < 0.0f))
+	{
+		Pitch = FMath::FInterpTo(Bird->GetComponentRotation().Pitch, Pitch, DeltaTime, 10.0f);
+	}
+
+	Bird->SetWorldRotation(FRotator(Pitch, 0.0f, 0.0f));
+}
+
+// Set auto flight location
+void ABird::SetAutoFlightLocation(float FlightAlpha)
+{
+	float MaximumElevation = AutoFlightOrigin.Z + AutoFlightMinimumElevation + AutoFlightMaximumElevation;
+	float MinimumElevation = AutoFlightOrigin.Z + AutoFlightMinimumElevation;
+
+	float Elevation = FMath::Lerp(MaximumElevation, MinimumElevation, FlightAlpha);
+
+	FVector AutoFlightLocation = FVector(AutoFlightOrigin.X, AutoFlightOrigin.Y, Elevation);
+
+	Bird->SetWorldLocation(AutoFlightLocation);
+}
+
+// Set random bird color
+void ABird::SetRandomBirdColor()
+{
+	int32 Index = FMath::RandRange(0, static_cast<uint8>(EBirdColor::MAX) - 1);
+
+	BirdColor = static_cast<EBirdColor>(StaticEnum<EBirdColor>()->GetValueByIndex(Index));
+}
+
+// Unpause flap animation
+void ABird::UnpauseFlapAnimation()
+{
+	if (bIsFlapAnimationPaused)
+	{
+		Bird->SetPlayRate(1.0f);
+		bIsFlapAnimationPaused = false;
+	}
 }

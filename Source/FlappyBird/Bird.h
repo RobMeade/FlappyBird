@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Kismet\KismetMathLibrary.h"
 #include "GameFramework/Pawn.h"
 #include "Camera/CameraComponent.h"
 #include "PaperFlipbookComponent.h"
@@ -39,6 +40,21 @@ protected:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	bool IsFalling() const;
+
+	UFUNCTION(BlueprintCallable)
+	void PauseFlapAnimation();
+
+	UFUNCTION(BlueprintCallable)
+	void Rotate(float DeltaTime);
+
+	UFUNCTION(BlueprintCallable)
+	void SetAutoFlightLocation(float FlightAlpha);
+
+	UFUNCTION(BlueprintCallable)
+	void SetRandomBirdColor();
+
+	UFUNCTION(BlueprintCallable)
+	void UnpauseFlapAnimation();
 
 
 protected:
