@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Kismet\KismetMathLibrary.h"
 #include "GameFramework/Pawn.h"
 #include "Camera/CameraComponent.h"
 #include "PaperFlipbookComponent.h"
@@ -37,6 +36,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void ApplyFlapForce();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	float GetGroundedLocation(UPrimitiveComponent* Base) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	bool IsFalling() const;

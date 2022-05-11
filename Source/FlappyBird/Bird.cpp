@@ -49,6 +49,14 @@ void ABird::ApplyFlapForce()
 	Bird->AddImpulse(FlapImpulse, NAME_None, true);
 }
 
+// Get grounded location
+float ABird::GetGroundedLocation(UPrimitiveComponent* Base) const
+{
+	float constexpr BeakPlant = 10.0f;
+
+	return (Base->GetComponentLocation().Z + Base->Bounds.BoxExtent.Z + BeakPlant);
+}
+
 // Is the bird falling?
 bool ABird::IsFalling() const
 {
@@ -58,7 +66,7 @@ bool ABird::IsFalling() const
 // Pause flap animation
 void ABird::PauseFlapAnimation()
 {
-	int32 PlaybackPositionFrame = Bird->GetPlaybackPositionInFrames();
+	int32 const PlaybackPositionFrame = Bird->GetPlaybackPositionInFrames();
 
 	if ((PlaybackPositionFrame == 0 || PlaybackPositionFrame == 2) && (!bIsFlapAnimationPaused))
 	{
@@ -93,12 +101,12 @@ void ABird::Rotate(float DeltaTime)
 // Set auto flight location
 void ABird::SetAutoFlightLocation(float FlightAlpha)
 {
-	float MaximumElevation = AutoFlightOrigin.Z + AutoFlightMinimumElevation + AutoFlightMaximumElevation;
-	float MinimumElevation = AutoFlightOrigin.Z + AutoFlightMinimumElevation;
+	float const MaximumElevation = AutoFlightOrigin.Z + AutoFlightMinimumElevation + AutoFlightMaximumElevation;
+	float const MinimumElevation = AutoFlightOrigin.Z + AutoFlightMinimumElevation;
 
-	float Elevation = FMath::Lerp(MaximumElevation, MinimumElevation, FlightAlpha);
+	float const Elevation = FMath::Lerp(MaximumElevation, MinimumElevation, FlightAlpha);
 
-	FVector AutoFlightLocation = FVector(AutoFlightOrigin.X, AutoFlightOrigin.Y, Elevation);
+	FVector const AutoFlightLocation = FVector(AutoFlightOrigin.X, AutoFlightOrigin.Y, Elevation);
 
 	Bird->SetWorldLocation(AutoFlightLocation);
 }
@@ -106,7 +114,7 @@ void ABird::SetAutoFlightLocation(float FlightAlpha)
 // Set random bird color
 void ABird::SetRandomBirdColor()
 {
-	int32 Index = FMath::RandRange(0, static_cast<uint8>(EBirdColor::MAX) - 1);
+	int32 const Index = FMath::RandRange(0, static_cast<uint8>(EBirdColor::MAX) - 1);
 
 	BirdColor = static_cast<EBirdColor>(StaticEnum<EBirdColor>()->GetValueByIndex(Index));
 }
